@@ -7,11 +7,16 @@ def get_actions_from_csv(filename):
         for ligne in lire_csv:
             ligne['price'] = float(ligne['price'])
             ligne['profit'] = float(ligne['profit'])
+            if ligne['price'] != 0:
+                ligne['gain'] = ligne['profit'] / ligne['price']
+                ligne['gain'] = ligne['gain']*100
+            else:
+                ligne['gain'] = 0
             liste_donnees.append(ligne)
     return liste_donnees
 
 def top_combinaison(actions, max_cout):
-    actions_triees = sorted(actions, key=lambda action: action['profit'], reverse=True)
+    actions_triees = sorted(actions, key=lambda action: action['gain'], reverse=True)
     meilleure_combinaison = []
     total_cout = 0
     total_benefice = 0
@@ -26,9 +31,20 @@ def top_combinaison(actions, max_cout):
 
     return meilleure_combinaison, total_benefice, total_cout
 
-filename = 'datatest.csv'
+# Demander à l'utilisateur de choisir le fichier CSV à traiter
+choix = input("Choisissez le fichier à traiter (1 ou 2) : ")
+if choix == "1":
+    filename = 'datatest.csv'
+elif choix == "2":
+    filename = 'datatest2.csv'
+else:
+    print("Choix invalide. Le programme s'arrête.")
+    exit()
 actions_extraites = get_actions_from_csv(filename)
 max_cout = 500
+# Afficher les données extraites du CSV
+#for action in actions_extraites:
+   # print(action)
 
 meilleure_combinaison, max_benefice, meilleur_cout = top_combinaison(actions_extraites, max_cout)
 
