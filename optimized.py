@@ -9,9 +9,9 @@ def get_actions_from_csv(filename):
             ligne['price'] = float(ligne['price'])
             ligne['profit'] = float(ligne['profit'])
             if ligne['price'] != 0:
-                ligne['gain'] = ligne['profit'] / ligne['price']
-                # on multiplie le résultat par 100 pour obtenir le pourcentage
-                ligne['gain'] = ligne['gain'] * 100
+                ligne['gain'] = ligne['profit'] * ligne['price']
+                # on divise le résultat par 100 pour obtenir le pourcentage
+                ligne['gain'] = ligne['gain'] / 100
             else:
                 ligne['gain'] = 0
             liste_donnees.append(ligne)
@@ -28,7 +28,7 @@ def top_combinaison(actions, max_cout):
         if total_cout + action['price'] <= max_cout:
             meilleure_combinaison.append(action)
             total_cout += action['price']
-            total_benefice += action['profit']
+            total_benefice += action['gain']
         else:
             break
 
